@@ -7,6 +7,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from datetime import datetime
 import math
 import random
+import time
 
 cardValues = [
     2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11,2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11
@@ -80,8 +81,12 @@ class BlackjackGame(QtWidgets.QMainWindow):
         self.playercardsvalue=0
         self.dealercardsvalue=0
         self.dealertext=""
-        self.wongame=False #win game or not
+
+        self.gameInProgress=True
+
+        self.camerainput=False
         self.action='stay'
+        self.playerafter=False
 
         self.ui.winnings.setText(str(self.winnings))
         self.ui.playercards.setText(str(self.playercardsvalue))
@@ -90,34 +95,42 @@ class BlackjackGame(QtWidgets.QMainWindow):
 
         self.game()
 
+    def dealCard(self,playerordealer):
+        if not playerordealer:
+            randomnum=abs(random.randint(0,51))
+            label_name = f"pcard{self.playercardcount+1}"
+            getattr(self.ui, label_name).setPixmap(QtGui.QPixmap(imagePaths[randomnum]))
+            self.playercardsvalue+=cardValues[randomnum]
+            self.playercardcount+=1
+        else:
+            randomnum=abs(random.randint(0,51))
+            label_name = f"dcard{self.dealercardcount+1}"
+            self.dealercardsvalue+=cardValues[randomnum]
+            self.dealercardcount+=1
+
+            if self.dealercardcount==1:
+                self.revealeddealervalue=cardValues[randomnum]
+
+            if self.dealercardcount==2:
+                self.ui.dcard2.setPixmap(QtGui.QPixmap('dickerson.png'))
+            else:
+                getattr(self.ui, label_name).setPixmap(QtGui.QPixmap(imagePaths[randomnum]))
 
     def game(self):
         
 
-        while True:
+        while self.gameInProgress:
             
-            #deal 2 cards to player and dealer
-            randomnum=abs(random.randint(0,51))
-            self.ui.pcard1.setPixmap(QtGui.QPixmap(imagePaths[randomnum]))
-            self.playercardsvalue+=cardValues[randomnum]
-            self.playercardcount+=1
-
-            randomnum=abs(random.randint(0,51))
-            self.ui.pcard2.setPixmap(QtGui.QPixmap(imagePaths[randomnum]))
-            self.playercardsvalue+=cardValues[randomnum]
-            self.playercardcount+=1
-
-            randomnum=abs(random.randint(0,51))
-            self.ui.dcard1.setPixmap(QtGui.QPixmap(imagePaths[randomnum]))
-            self.dealercardsvalue+=cardValues[randomnum]
-            self.revealeddealervalue=cardValues[randomnum]
-            self.dealercardcount+=1
-
-            self.ui.dcard2.setPixmap(QtGui.QPixmap('dickerson.png'))
-            self.dealercardsvalue+=cardValues[randomnum]
-            self.dealercardcount+=1
-
+            # #deal 2 cards to player and dealer
+            if self.dealercardcount==0:
+                self.dealCard(False)
+                self.dealCard(False)
+                self.dealCard(True)
+                self.dealCard(True)
+            elif self.gameInProgress:
+                self.dealCard(self.playerafter)
             
+
             self.dealertext='Dealer: You can hit, stay, double down, or split. Press the button to take a picture whenver you are ready.'
             
             self.ui.winnings.setText(str(self.winnings))
@@ -125,8 +138,17 @@ class BlackjackGame(QtWidgets.QMainWindow):
             self.ui.dealercards.setText(str(self.revealeddealervalue))
             self.ui.dealertext.setText(self.dealertext)
 
-            if self.action=='stay':
-                break
+            #game won? else get camera input in a while loop
+            
+            if self.playercardsvalue==21 and self.playercardcount==2:
+                self.winnings+=1
+                self.gameInProgress=False
+            else:
+                self.action='stay'
+                #get camera input
+
+            
+                
 
     
 
