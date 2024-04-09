@@ -21,36 +21,36 @@ class Ui_MainWindow(object):
         self.label.setPixmap(QtGui.QPixmap("table.png"))
         self.label.setObjectName("label")
         self.gridLayoutWidget = QtWidgets.QWidget(parent=self.centralwidget)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 10, 211, 231))
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 10, 211, 304))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
+        self.textEdit_2 = QtWidgets.QTextEdit(parent=self.gridLayoutWidget)
+        self.textEdit_2.setEnabled(False)
+        self.textEdit_2.setObjectName("textEdit_2")
+        self.gridLayout.addWidget(self.textEdit_2, 0, 0, 1, 1)
         self.playercards = QtWidgets.QTextEdit(parent=self.gridLayoutWidget)
         self.playercards.setEnabled(False)
         self.playercards.setObjectName("playercards")
         self.gridLayout.addWidget(self.playercards, 2, 1, 1, 1)
+        self.winnings = QtWidgets.QTextEdit(parent=self.gridLayoutWidget)
+        self.winnings.setEnabled(False)
+        self.winnings.setObjectName("winnings")
+        self.gridLayout.addWidget(self.winnings, 0, 1, 1, 1)
+        self.textEdit_3 = QtWidgets.QTextEdit(parent=self.gridLayoutWidget)
+        self.textEdit_3.setEnabled(False)
+        self.textEdit_3.setObjectName("textEdit_3")
+        self.gridLayout.addWidget(self.textEdit_3, 2, 0, 1, 1)
         self.textEdit = QtWidgets.QTextEdit(parent=self.gridLayoutWidget)
         self.textEdit.setEnabled(False)
         self.textEdit.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.textEdit.setObjectName("textEdit")
         self.gridLayout.addWidget(self.textEdit, 1, 0, 1, 1)
-        self.textEdit_3 = QtWidgets.QTextEdit(parent=self.gridLayoutWidget)
-        self.textEdit_3.setEnabled(False)
-        self.textEdit_3.setObjectName("textEdit_3")
-        self.gridLayout.addWidget(self.textEdit_3, 2, 0, 1, 1)
         self.dealercards = QtWidgets.QTextEdit(parent=self.gridLayoutWidget)
         self.dealercards.setEnabled(False)
         self.dealercards.setObjectName("dealercards")
         self.gridLayout.addWidget(self.dealercards, 1, 1, 1, 1)
-        self.textEdit_2 = QtWidgets.QTextEdit(parent=self.gridLayoutWidget)
-        self.textEdit_2.setEnabled(False)
-        self.textEdit_2.setObjectName("textEdit_2")
-        self.gridLayout.addWidget(self.textEdit_2, 0, 0, 1, 1)
-        self.winnings = QtWidgets.QTextEdit(parent=self.gridLayoutWidget)
-        self.winnings.setEnabled(False)
-        self.winnings.setObjectName("winnings")
-        self.gridLayout.addWidget(self.winnings, 0, 1, 1, 1)
         self.dealertext = QtWidgets.QTextEdit(parent=self.centralwidget)
         self.dealertext.setEnabled(False)
         self.dealertext.setGeometry(QtCore.QRect(280, 490, 301, 61))
@@ -86,7 +86,7 @@ class Ui_MainWindow(object):
         self.pcard7.setScaledContents(True)
         self.pcard7.setObjectName("pcard7")
         self.pcard6 = QtWidgets.QLabel(parent=self.centralwidget)
-        self.pcard6.setGeometry(QtCore.QRect(140, 300, 71, 111))
+        self.pcard6.setGeometry(QtCore.QRect(170, 330, 71, 111))
         self.pcard6.setText("")
         self.pcard6.setScaledContents(True)
         self.pcard6.setObjectName("pcard6")
@@ -125,6 +125,54 @@ class Ui_MainWindow(object):
         self.dcard7.setText("")
         self.dcard7.setScaledContents(True)
         self.dcard7.setObjectName("dcard7")
+        self.start = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.start.setGeometry(QtCore.QRect(10, 460, 151, 81))
+        self.start.setObjectName("start")
+        self.pcard8 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.pcard8.setGeometry(QtCore.QRect(680, 280, 71, 111))
+        self.pcard8.setText("")
+        self.pcard8.setScaledContents(True)
+        self.pcard8.setObjectName("pcard8")
+        self.pcard9 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.pcard9.setGeometry(QtCore.QRect(720, 260, 71, 111))
+        self.pcard9.setText("")
+        self.pcard9.setScaledContents(True)
+        self.pcard9.setObjectName("pcard9")
+        self.pcard10 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.pcard10.setGeometry(QtCore.QRect(750, 240, 71, 111))
+        self.pcard10.setText("")
+        self.pcard10.setScaledContents(True)
+        self.pcard10.setObjectName("pcard10")
+        self.pcard11 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.pcard11.setGeometry(QtCore.QRect(80, 320, 71, 111))
+        self.pcard11.setText("")
+        self.pcard11.setScaledContents(True)
+        self.pcard11.setObjectName("pcard11")
+        self.pcard12 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.pcard12.setGeometry(QtCore.QRect(350, 230, 71, 111))
+        self.pcard12.setText("")
+        self.pcard12.setScaledContents(True)
+        self.pcard12.setObjectName("pcard12")
+        self.pcard13 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.pcard13.setGeometry(QtCore.QRect(440, 230, 71, 111))
+        self.pcard13.setText("")
+        self.pcard13.setScaledContents(True)
+        self.pcard13.setObjectName("pcard13")
+        self.pcard14 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.pcard14.setGeometry(QtCore.QRect(510, 230, 71, 111))
+        self.pcard14.setText("")
+        self.pcard14.setScaledContents(True)
+        self.pcard14.setObjectName("pcard14")
+        self.pcard15 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.pcard15.setGeometry(QtCore.QRect(610, 220, 71, 111))
+        self.pcard15.setText("")
+        self.pcard15.setScaledContents(True)
+        self.pcard15.setObjectName("pcard15")
+        self.pcard16 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.pcard16.setGeometry(QtCore.QRect(240, 230, 71, 111))
+        self.pcard16.setText("")
+        self.pcard16.setScaledContents(True)
+        self.pcard16.setObjectName("pcard16")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 836, 22))
@@ -140,22 +188,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.textEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt; font-weight:700; font-style:italic; color:#000000;\">Dealer Card Count:</span></p></body></html>"))
-        self.textEdit_3.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt; font-weight:700; font-style:italic;\">Your Card Count:</span></p></body></html>"))
         self.textEdit_2.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -165,6 +197,22 @@ class Ui_MainWindow(object):
 "</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:700; font-style:italic;\">Winnings:</span></p></body></html>"))
+        self.textEdit_3.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt; font-weight:700; font-style:italic;\">Your Card Value:</span></p></body></html>"))
+        self.textEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt; font-weight:700; font-style:italic; color:#000000;\">Dealer Card Value:</span></p></body></html>"))
         self.dealertext.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -174,6 +222,7 @@ class Ui_MainWindow(object):
 "</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:700; font-style:italic;\">Dealer:</span></p>\n"
 "<p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:700; font-style:italic;\"><br /></p></body></html>"))
+        self.start.setText(_translate("MainWindow", "Start Game"))
 
 
 if __name__ == "__main__":
