@@ -1,19 +1,33 @@
-from PyQt6.QtCore import QObject, pyqtSignal, QTimer
+from PyQt5.QtCore import QObject, pyqtSignal, QTimer
 from blackjackUi import Ui_MainWindow
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QPushButton, QComboBox, QMainWindow
-from PyQt6.QtCore import QTimer
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QPushButton, QComboBox, QMainWindow
+from PyQt5.QtCore import QTimer
+from PyQt5 import QtCore, QtGui, QtWidgets
 from datetime import datetime
 import math
 import random
 import cv2
 import time
-import keras
-from keras.models import Sequential, load_model
 import os
 from PIL import Image
 import numpy as np
+import subprocess
+
+from tflite_runtime.interpreter import Interpreter
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BOARD)
+
+button1=16
+button2=12
+
+#define button1 and 2 as inputs
+GPIO.setup(button1,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(button2,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 
 cardValues = [
     2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11
@@ -110,7 +124,14 @@ class BlackjackGame(Ui_MainWindow):
         self.action='stay'
         self.playerUp=True
 
-        self.model=keras.models.load_model('my_image_model.h5')
+
+        GPIO.add_event_detect(button2,GPIO.FALLING, self.double)
+        GPIO.add_event_detect(button1,GPIO.FALLING,self.takePicture,200)
+
+        self.model=Interpreter(model_path="model_image.tflite")
+        self.model.allocate_tensors()
+        self.input_details = self.model.get_input_details()
+        self.output_details = self.model.get_output_details()
     
     def init_ui(self):
         import sys
@@ -120,66 +141,57 @@ class BlackjackGame(Ui_MainWindow):
         self.ui.setupUi(MainWindow)
         MainWindow.show()
         self.ui.start.clicked.connect(self.game)
-        self.ui.doubledown.clicked.connect(self.double)
-        self.ui.picture.clicked.connect(self.takePicture)
+       # self.ui.doubledown.clicked.connect(self.double)
+       # self.ui.picture.clicked.connect(self.takePicture)
 
         self.app.exec()
             
-    def double(self):
+    def double(self,val):
         self.action='double'
 
-    def takePicture(self):
+    def takePicture(self,val):
         print('\ntaking picture in 1 second:')
         time.sleep(1)
-        cap = cv2.VideoCapture(0)
-
-    # Check if the camera opened successfully
-        if not cap.isOpened():
-            print("Error: Unable to open camera")
-        
-
-    # Capture a frame
-        ret, frame = cap.read()
-
-    # Release the camera
-        cap.release()
-
-
-        new_width = 224
-        new_height = 224
-
-    # Resize the image
-
-        framenew = cv2.resize(frame,(new_width, new_height))
+    
+        with PiCamera() as camera:
+            camera.resolution = (224, 224)
+            rawCapture = PiRGBArray(camera, size=(224, 224))
+            time.sleep(0.1)
+    
+    # Capture image
+            camera.capture(rawCapture, format="rgb")
+            image = rawCapture.array
 
 
 
 
-    # Normalize pixel values if your model expects normalization
-        image_rgb=cv2.cvtColor(framenew,cv2.COLOR_BGR2RGB)
-        image_normalized = image_rgb / 255.0
-        image_batch=np.expand_dims(image_normalized,axis=0)
+            #image_rgb=cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
+            
+            image_normalized = image / 255.0
 
+            frames_np=np.array(image_normalized, dtype=np.float32)
+            cv2.imwrite('action.jpg',image)
+            image_batch=np.expand_dims(frames_np,axis=0)
+            
+    # Make prediction
 
-        if ret:
-        # Save the captured frame as an image
-            prob=self.model.predict(image_batch)[0]
-            predicted_class = np.argmax(prob)
+            self.model.set_tensor(self.input_details[0]['index'],image_batch)
+
+            self.model.invoke()
+
+            output_data=self.model.get_tensor(self.output_details[0]['index'])
+
+            print(output_data)
+            
+            predicted_class = np.argmax(output_data, axis=1)[0]
+
     # Compare prediction with expected clas
     #play_sound(result)
-            cv2.imwrite('action.png', framenew)
-
             class_labels={0:'hit',1:'split',2:'stay'}
-            neuralclass=class_labels[predicted_class]
-
-            self.action=neuralclass
-
-        else:
-            print("Error: Unable to capture picture")
-
-        
+            self.action=class_labels[predicted_class]
         # get class from neural network and return it  
-        # os.remove('action.png')
+            print(self.action)
+
 
     def dealCard(self,handNumber):
         if handNumber ==11:  #dealer hand 
@@ -223,7 +235,7 @@ class BlackjackGame(Ui_MainWindow):
                     self.hands[handNumber].value-=10
 
     def game(self):
-        while self.ui.autodeal.checkState():
+
             self.split=False
             self.playerUp=True
             self.dealerDone=False
@@ -294,7 +306,7 @@ class BlackjackGame(Ui_MainWindow):
                 QApplication.processEvents()
                 time.sleep(1)
                 self.dealCard(11)          
-                self.ui.dealercards.setText(str(self.dhand.value))
+                self.ui.dealercards.setText(str(self.revealeddealervalue))
                 QApplication.processEvents()
                 
 
@@ -403,9 +415,10 @@ class BlackjackGame(Ui_MainWindow):
 
             self.dealertext='Dealer: You can hit, stay, double down, or split. Press the button to take a picture or double down whenver you are ready.'
             self.ui.dealertext.setText(self.dealertext)
+            QApplication.processEvents()
 
             #GET ACTION
-            
+            #interrupts defined at top for button presses
             answer=input('proceed?')
             print(self.action)
 
