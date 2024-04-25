@@ -1,7 +1,7 @@
 # Blackjack
 
 
-##Important files:
+## Important files:
 
 - game.py: the main script of the Blackjack game that contains the blackjack logic, communication with the tflite model, pi camera, and GPIO pins
 - blackjackUi.py: my QT designer user interface file exported into python code. I run this file to be able to communicate with my UI
@@ -13,7 +13,7 @@
 ## Other files:
 - Files not mentioned were used to either scale images to a different size or are images that are displayed in my User Interface.
 
-##Installation:
+## Installation:
 
 - The below libraries are used to communicate with the neural network and process the images. In addition, one could choose to make this completely software by adding buttons on to the User Interface in the Qt designer app and substituting in code to take a picture with your computer camera rather than the Raspberry Pi's camera.
 
